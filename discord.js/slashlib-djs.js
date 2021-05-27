@@ -1,5 +1,5 @@
 /**
- * @file SlashLib D.JS
+ * @file SlashLib D.JS https://github.com/jiktim/library-crap
  * @description An ES6 extension to Discord.JS to use slash commands while waiting for the official
  *              implementation.
  *              ! This library was tested as working with discord.js v12.5.3 !
