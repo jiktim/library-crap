@@ -1,7 +1,8 @@
 /**
  * @file SlashLib D.JS
  * @description An ES6 extension to Discord.JS to use slash commands while waiting for the official
- *              implementation
+ *              implementation.
+ *              ! This library was tested as working with discord.js v12.5.3 !
  * @author lambdagg <lambdagg@jikt.im>
  * @license AGPL-3.0-or-later
  * @version 0.1.0
@@ -180,3 +181,5 @@ export default class SlashLib {
     await this.apiApp(guildId).commands.post({ data: { name, description, options } });
   }
 }
+
+
