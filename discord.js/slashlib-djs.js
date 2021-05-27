@@ -104,7 +104,7 @@ export default class SlashLib {
       /**
        * @type {import('discord.js').User}
        */
-      const author = guild.members.cache.get(inter.member.user.id).user;
+      const author = client.users.resolve(inter.member.user.id);
 
       /**
        * @type {CommandOption[]}
@@ -144,8 +144,28 @@ export default class SlashLib {
    */
   apiApp(guildId) {
     const _ = this.client.api.applications(this.client.user.id);
-    if (guildId || this.guild) _.guilds(guildId || this.guild);
+    if (guildId) _.guilds(guildId);
     return _;
+  }
+
+  clearCommands(guildId) {
+    return new Promise((res) => {
+      Promise.resolve(this.getCommands(guildId)).then((arr) => {
+        if (!arr.length) res();
+        arr.forEach(async (cmd, index) => {
+          await this.deleteCommand(guildId, cmd.id);
+          if (index === arr.length - 1) res();
+        });
+      });
+    });
+  }
+
+  async getCommands(guildId) {
+    return this.apiApp(guildId).commands.get();
+  }
+
+  deleteCommand(guildId, commandId) {
+    return this.apiApp(guildId).commands(commandId).delete();
   }
 
   /**
@@ -158,7 +178,7 @@ export default class SlashLib {
       guildId, name, description, options, callback,
     } = command;
     const data = {
-      guildId: guildId || this.guild,
+      guildId,
       name: name.toLowerCase(),
       description,
       options,
